@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const AddBookForm = ({ closeModal }) => {
   const [bookData, setBookData] = useState({
@@ -46,22 +44,21 @@ const AddBookForm = ({ closeModal }) => {
       console.log("Response result:", result);
 
       if (response.ok) {
-        toast.success("Book added successfully!");
+        //toast.success("Book added successfully!");
         console.log("Book added successfully!");
         if (closeModal) closeModal(); // Close the modal if the prop is provided
       } else {
-        toast.error("Error adding book: " + (result.errors?.[0]?.message || "Unknown error"));
+        //toast.error("Error adding book: " + (result.errors?.[0]?.message || "Unknown error"));
         console.error("Error adding book:", result.errors);
       }
     } catch (error) {
       console.error("Submission error:", error);
-      toast.error("An unexpected error occurred.");
+      //toast.error("An unexpected error occurred.");
     }
   };
 
   return (
     <div>
-      <ToastContainer />
       <h2 className="text-2xl font-semibold mb-4">Add a New Book</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
