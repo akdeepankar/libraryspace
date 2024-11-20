@@ -8,8 +8,7 @@ import IssuedRecords from "../components/IssuedRecords";
 import  BooksPage from "../components/books";
 import Overview from "../components/overview";
 import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineLogout } from "react-icons/ai";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -119,7 +118,6 @@ export default function Dashboard() {
       {/* Content Area */}
       <div className="flex-1 p-8 bg-[#ffffff7e] rounded-3xl m-2 shadow-lg overflow-y-auto">
         <div className="content-area">{renderContent()}</div>
-        <ToastContainer />
       </div>
     </div>
   );
