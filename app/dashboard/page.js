@@ -63,7 +63,7 @@ export default function Dashboard() {
       <div className="w-1/6 p-4 bg-[#ffffff7e] text-black rounded-3xl ml-2 mt-2 mb-2 bg-opacity-80 backdrop-blur-lg shadow-lg flex flex-col justify-between">
         <div>
           <Image
-          className="dark:invert"
+          className="dark:invert m-5"
           src="/adminlogo.svg"
           alt="Next.js logo"
           width={180}
