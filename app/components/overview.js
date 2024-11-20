@@ -44,7 +44,7 @@ const Overview = () => {
       setTotalStudents(totalStudentsCount);
 
       // Calculate available books
-      setTotalAvailableBooks(totalBooksCount - totalIssuedBooks);
+      setTotalAvailableBooks(issuedBooksData.length);
     } catch (error) {
       console.error("Error fetching library stats:", error.message);
     }
