@@ -5,11 +5,11 @@ import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import StudentPage from "../components/students";
 import IssuedRecords from "../components/IssuedRecords";
-import  BooksPage from "../components/books";
+import BooksPage from "../components/books";
 import Overview from "../components/overview";
-import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineLogout } from "react-icons/ai";
+import AdminSettings from "../components/AdminSettings"; // Import the new AdminSettings component
+import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout } from "react-icons/ai";
 import Image from 'next/image';
-
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("overview");
@@ -50,6 +50,8 @@ export default function Dashboard() {
         return <StudentPage />;
       case "records":
         return <IssuedRecords />;
+      case "settings": // New case for Admin Settings
+        return <AdminSettings />;
       default:
         return <p>Welcome to your dashboard!</p>;
     }
@@ -63,13 +65,13 @@ export default function Dashboard() {
       <div className="w-1/6 p-4 bg-[#ffffff7e] text-black rounded-3xl ml-2 mt-2 mb-2 bg-opacity-80 backdrop-blur-lg shadow-lg flex flex-col justify-between">
         <div>
           <Image
-          className="dark:invert m-5"
-          src="/adminlogo.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />  
+            className="dark:invert m-5"
+            src="/adminlogo.svg"
+            alt="Next.js logo"
+            width={180}
+            height={38}
+            priority
+          />
           <ul className="space-y-4">
             <li>
               <button
@@ -109,6 +111,16 @@ export default function Dashboard() {
                 } text-black`}
               >
                 <AiOutlineFileText className="mr-2" /> Issue Records
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("settings")}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
+                  activeTab === "settings" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
+                } text-black`}
+              >
+                <AiOutlineSetting className="mr-2" /> Admin Settings
               </button>
             </li>
           </ul>

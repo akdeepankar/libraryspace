@@ -62,13 +62,13 @@ export default function AuthPage() {
         <div className="flex justify-center space-x-4">
           <button
             onClick={() => setTab("login")}
-            className={`py-2 px-4 font-semibold rounded-lg ${tab === "login" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            className={`py-2 px-4 font-semibold rounded-lg ${tab === "login" ? "bg-black text-white" : "bg-gray-200"}`}
           >
             Login
           </button>
           <button
             onClick={() => setTab("signup")}
-            className={`py-2 px-4 font-semibold rounded-lg ${tab === "signup" ? "bg-blue-600 text-white" : "bg-gray-200"}`}
+            className={`py-2 px-4 font-semibold rounded-lg ${tab === "signup" ? "bg-black text-white" : "bg-gray-200"}`}
           >
             Sign Up
           </button>
@@ -95,7 +95,7 @@ export default function AuthPage() {
             />
             <button
               type="submit"
-              className="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 font-semibold text-white bg-black rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Login
             </button>
@@ -120,7 +120,7 @@ export default function AuthPage() {
             />
             <button
               type="submit"
-              className="w-full px-4 py-2 font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 font-semibold text-white bg-black rounded-lg hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Sign Up
             </button>
