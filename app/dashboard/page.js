@@ -8,6 +8,7 @@ import IssuedRecords from "../components/IssuedRecords";
 import  BooksPage from "../components/books";
 import Overview from "../components/overview";
 import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineLogout } from "react-icons/ai";
+import Image from 'next/image';
 
 
 export default function Dashboard() {
