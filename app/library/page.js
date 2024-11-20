@@ -147,9 +147,16 @@ const LibraryDashboard = () => {
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b">
           {/* Logo and User info */}
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold text-gray-900">myLibrary</h1>
-            <p className="text-xl text-gray-900 font-bold"><span className="font-normal">Welcome,</span> {user?.name}</p>
-            <p className="text-sm text-gray-600">{user?.email}</p>
+          <Image
+          className="dark:invert"
+          src="/studentlogo.svg"
+          alt="Next.js logo"
+          width={280}
+          height={38}
+          priority
+        />   
+            <p className="ml-2 text-xl text-gray-900 font-bold"><span className="font-normal">Welcome,</span> {user?.name}</p>
+            <p className="ml-2 text-sm text-gray-600">{user?.email}</p>
           </div>
 
           {/* Logout button */}
@@ -214,6 +221,8 @@ const LibraryDashboard = () => {
                     <Image
                       src={book.cover || "/cover.gif"}
                       alt={book.title}
+                      height={200}
+                      width={200}
                       className="w-full h-48 object-cover rounded-t-lg"
                     />
                     <h3 className="text-lg font-semibold mt-2 text-gray-900">{book.title}</h3>

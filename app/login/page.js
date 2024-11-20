@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { useRouter } from 'next/navigation';
+import Image from 'next/image'; 
 
 export default function AuthPage() {
   const [tab, setTab] = useState("login");
@@ -46,9 +47,17 @@ export default function AuthPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
-        <h2 className="text-2xl font-semibold text-center text-gray-700">Admin Login</h2>
-        
+
+      <div className="ml-20 w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
+        <Image
+          className="dark:invert"
+          src="/adminlogo.svg"
+          alt="Next.js logo"
+          width={380}
+          height={38}
+          priority
+        />
+
         {/* Tab Selection */}
         <div className="flex justify-center space-x-4">
           <button

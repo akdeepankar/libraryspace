@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: 'covers.openlibrary.org',
+          pathname: '/b/isbn/**',
+        },
+      ],
+    },
+  };
+  
+  export default nextConfig;
+  
