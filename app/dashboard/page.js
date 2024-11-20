@@ -61,7 +61,14 @@ export default function Dashboard() {
       {/* Sidebar */}
       <div className="w-1/6 p-4 bg-[#ffffff7e] text-black rounded-3xl ml-2 mt-2 mb-2 bg-opacity-80 backdrop-blur-lg shadow-lg flex flex-col justify-between">
         <div>
-          <h2 className="text-2xl font-semibold mb-6 text-black">Library</h2>
+          <Image
+          className="dark:invert"
+          src="/adminlogo.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />  
           <ul className="space-y-4">
             <li>
               <button
