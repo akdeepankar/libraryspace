@@ -21,7 +21,7 @@ export default function StudentAuthPage() {
       }
     };
     checkSession();
-  }, []);
+  }, []); 
 
   const handleLogin = async (e) => {
     e.preventDefault();

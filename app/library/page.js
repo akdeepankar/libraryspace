@@ -16,8 +16,61 @@ const LibraryDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [selectedBook, setSelectedBook] = useState(null);
   const router = useRouter();
+  const [showModal, setShowModal] = useState(false);
+  const [recommendedBooks, setRecommendedBooks] = useState([]);
+  const [recommendationsLoading, setRecommendationsLoading] = useState(false);
 
+
+  const API_URL = 'https://sample-ak-deepankar.hypermode.app/graphql';
+  const API_KEY = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg";
   
+  const fetchRecommendations = async () => {
+    setRecommendationsLoading(true);
+    setShowModal(true);
+
+    try {
+      // Set up GraphQL API request
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': API_KEY,
+        },
+        body: JSON.stringify({
+          query: `
+            query GenerateText($instruction: String!, $prompt: String!) {
+              generateText(instruction: $instruction, prompt: $prompt)
+            }
+          `,
+          variables: {
+            instruction:
+              "You are a Book Recommendation System. Given a list of books, recommend 6 books similar to them. Only the Names and Author.",
+            prompt: "Recommend 6 Books for the user like" + issuedHistory.join("\n") + "\n",
+          },
+        }),
+      });
+
+      // Check for a successful response
+      if (!response.ok) {
+        throw new Error("Failed to generate text: " + response.statusText);
+      }
+
+      const data = await response.json();
+      const generatedText = data.data.generateText || "No recommendations available.";
+
+      // Process the response
+      setRecommendedBooks(
+        generatedText
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line) // Filter out empty lines
+      );
+    } catch (error) {
+      console.error("Error fetching recommendations:", error);
+    } finally {
+      setRecommendationsLoading(false);
+    }
+  };
 
   // Fetch user details
   const fetchUserDetails = async () => {
@@ -142,6 +195,8 @@ const LibraryDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+
+      
       {/* Fixed Header with Tabs */}
       <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-10">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b">
@@ -194,6 +249,72 @@ const LibraryDashboard = () => {
 
       {/* Main Content with Padding */}
       <div className="pt-28 px-6 pb-12">
+       
+
+{/* Floating Action Bar */}
+<div className="fixed bottom-6 right-6 z-50 flex items-center space-x-2">
+  <button
+    onClick={fetchRecommendations}
+    className="px-4 py-3 bg-black text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-white hover:text-black transition"
+  >
+    Recommend ✨
+  </button>
+</div>
+
+
+{/* Modal */}
+{showModal && (
+  <>
+    {/* Overlay */}
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 z-40"
+      onClick={() => setShowModal(false)}
+    ></div>
+
+    {/* Modal Content */}
+    <div
+      className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-50 overflow-y-auto"
+    >
+      <div className="p-6">
+        <button
+          onClick={() => setShowModal(false)}
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          ×
+        </button>
+        {recommendationsLoading ? (
+          <div className="flex justify-center items-center">
+            <p className="text-gray-600 text-lg">Fetching recommendations...</p>
+          </div>
+        ) : (
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              Recommended Books
+            </h2>
+            {recommendedBooks.length > 0 ? (
+              <ul className="space-y-3">
+                {recommendedBooks.map((book, index) => (
+                  <li
+                    key={index}
+                    className="p-4 border rounded-lg"
+                  >
+                    {book}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-gray-600">
+                No recommendations available.
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </>
+)}
+
+    
         {/* Tab Content */}
         <div>
           {activeTab === "catalogue" && (
