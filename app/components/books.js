@@ -33,6 +33,8 @@ const BooksPage = () => {
   };
   const closeBookDetailsModal = () => setIsBookDetailsModalOpen(false);
 
+
+
   const fetchBooks = async (page, query = "") => {
     setLoading(true);
     const from = (page - 1) * pageSize;
@@ -244,6 +246,44 @@ const BooksPage = () => {
     }
   };
   
+  const deleteBook = async (title) => {
+    try {
+      // Sending the GraphQL mutation request to delete the book
+      const response = await fetch("https://sample-ak-deepankar.hypermode.app/graphql", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg", // Replace with your actual token
+        },
+        body: JSON.stringify({
+          query: `
+            mutation DeleteBookFromSupabase2($title: String!) {
+              deleteBookFromSupabase2(title: $title)
+            }
+          `,
+          variables: { title },
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok && result.data) {
+        console.log("Book deleted successfully!");
+  
+        // Update the local state to remove the deleted book from the list
+        setBooks((prevBooks) => prevBooks.filter((book) => book.title !== title));
+  
+        // Optionally, show a confirmation or success message
+        alert("Book deleted successfully!");
+      } else {
+        console.error("Error deleting book:", result.errors);
+        alert("Failed to delete the book.");
+      }
+    } catch (err) {
+      console.error("Error in deleteBook function:", err);
+      alert("An error occurred while deleting the book.");
+    }
+  };
   
   
   
@@ -313,28 +353,37 @@ const BooksPage = () => {
                 <td className="px-4 py-2 border-b">{book.category || "N/A"}</td>
                 <td className="px-4 py-2 border-b">{book.status || "N/A"}</td>
                 <td className="px-4 py-2 border-b">
-                  {book.status === "issued" ? (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        returnBook(book);
-                      }}
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                    >
-                      Return
-                    </button>
-                  ) : (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openStudentModal(book);
-                      }}
-                      className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
-                    >
-                      Issue
-                    </button>
-                  )}
-                </td>
+  {book.status === "issued" ? (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        returnBook(book);
+      }}
+      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+    >
+      Return
+    </button>
+  ) : (
+    <button
+      onClick={(e) => {
+        e.stopPropagation();
+        openStudentModal(book);
+      }}
+      className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"
+    >
+      Issue
+    </button>
+  )}
+  <button
+    onClick={(e) => {
+      e.stopPropagation();
+      deleteBook(book.title); // Call the deleteBook function
+    }}
+    className="bg-red-700 text-white px-2 py-1 rounded ml-2 hover:bg-red-800"
+  >
+    Delete
+  </button>
+</td>
               </tr>
             ))}
           </tbody>

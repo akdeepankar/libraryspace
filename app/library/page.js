@@ -5,6 +5,8 @@ import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import BookDetailsModal from "../components/BookDetails";
+import SearchModal from "../components/SearchModal"; 
+
 
 const LibraryDashboard = () => {
   const [activeTab, setActiveTab] = useState("catalogue");
@@ -20,6 +22,9 @@ const LibraryDashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [recommendedBooks, setRecommendedBooks] = useState([]);
   const [recommendationsLoading, setRecommendationsLoading] = useState(false);
+
+  const [showSearchModal, setShowSearchModal] = useState(false); // State for the search modal
+
 
 
   const API_URL = 'https://sample-ak-deepankar.hypermode.app/graphql';
@@ -254,13 +259,27 @@ const LibraryDashboard = () => {
 
 {/* Floating Action Bar */}
 <div className="fixed bottom-6 right-6 z-50 flex items-center space-x-2">
-  <button
-    onClick={fetchRecommendations}
-    className="px-4 py-3 bg-black text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-white hover:text-black transition"
-  >
-    Recommend ✨
-  </button>
-</div>
+        <button
+          onClick={fetchRecommendations}
+          className="px-4 py-3 bg-black text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-white hover:text-black transition"
+        >
+          Recommend ✨
+        </button>
+
+        {/* Search Button */}
+        <button
+          onClick={() => setShowSearchModal(true)}
+          className="px-4 py-3 bg-blue-600 text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-blue-700 transition"
+        >
+          Search 🔍
+        </button>
+      </div>
+
+      {/* Search Modal */}
+      <SearchModal
+        isOpen={showSearchModal}
+        onClose={() => setShowSearchModal(false)}
+      />
 
 
 {/* Modal */}
