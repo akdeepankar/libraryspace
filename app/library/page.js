@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import BookDetailsModal from "../components/BookDetails";
 
 const LibraryDashboard = () => {
   const [activeTab, setActiveTab] = useState("catalogue");
@@ -440,22 +441,9 @@ const LibraryDashboard = () => {
         </div>
       </div>
 
-      {/* Book Details Modal */}
-      {selectedBook && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-20">
-          <div className="bg-white p-8 rounded-lg w-96">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">{selectedBook.title}</h2>
-            <p className="text-sm text-gray-600 mb-4">By {selectedBook.author}</p>
-            <p className="text-gray-700 mb-4">{selectedBook.about}</p>
-            <p className="text-lg font-semibold">Status: {selectedBook.status}</p>
-            <button
-              onClick={() => setSelectedBook(null)}
-              className="mt-4 w-full bg-red-600 text-white py-2 rounded-lg"
-            >
-              Close
-            </button>
-          </div>
-        </div>
+       {/* Book Details Modal on the Side */}
+       {selectedBook && (
+        <BookDetailsModal book={selectedBook} onClose={() => setSelectedBook(null)} />
       )}
     </div>
   );
