@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import AddBookForm from "./addBookForm";
 import Modal from "./Modal";
+import { fetchGraphQL } from "./graphqlApi";
 
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
@@ -245,29 +246,22 @@ const BooksPage = () => {
       console.error("Error in returnBook function:", err);
     }
   };
+
+  
   
   const deleteBook = async (title) => {
     try {
-      // Sending the GraphQL mutation request to delete the book
-      const response = await fetch("https://sample-ak-deepankar.hypermode.app/graphql", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg", // Replace with your actual token
-        },
-        body: JSON.stringify({
-          query: `
-            mutation DeleteBookFromSupabase2($title: String!) {
-              deleteBookFromSupabase2(title: $title)
-            }
-          `,
-          variables: { title },
-        }),
-      });
+      const query = `
+        mutation DeleteBookFromSupabase($title: String!) {
+          deleteBookFromSupabase(title: $title)
+        }
+      `;
+      const variables = { title };
   
-      const result = await response.json();
+      // Use the reusable fetchGraphQL function
+      const result = await fetchGraphQL(query, variables);
   
-      if (response.ok && result.data) {
+      if (result) {
         console.log("Book deleted successfully!");
   
         // Update the local state to remove the deleted book from the list
@@ -276,20 +270,15 @@ const BooksPage = () => {
         // Optionally, show a confirmation or success message
         alert("Book deleted successfully!");
       } else {
-        console.error("Error deleting book:", result.errors);
         alert("Failed to delete the book.");
       }
-    } catch (err) {
-      console.error("Error in deleteBook function:", err);
+    } catch (error) {
+      console.error("Error in deleteBook function:", error);
       alert("An error occurred while deleting the book.");
     }
   };
   
   
-  
-
-  
-
   useEffect(() => {
     fetchBooks(currentPage, searchQuery);
   }, [currentPage, searchQuery]);

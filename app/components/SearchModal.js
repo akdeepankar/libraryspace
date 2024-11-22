@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as per your project structure
 
 const SearchModal = ({ isOpen, onClose }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -10,9 +11,6 @@ const SearchModal = ({ isOpen, onClose }) => {
   const [error, setError] = useState("");
 
   const fetchSearchBooks = async (query) => {
-    const API_URL = "https://sample-ak-deepankar.hypermode.app/graphql";
-    const API_KEY = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg";
-
     try {
       const graphqlQuery = `
         query SearchBooks($query: String!) {
@@ -33,26 +31,8 @@ const SearchModal = ({ isOpen, onClose }) => {
         }
       `;
 
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: API_KEY,
-        },
-        body: JSON.stringify({
-          query: graphqlQuery,
-          variables: { query },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `API request failed with status ${response.status}: ${response.statusText}`
-        );
-      }
-
-      const data = await response.json();
-      const searchResults = data?.data?.searchBooks;
+      const data = await fetchGraphQL(graphqlQuery, { query });
+      const searchResults = data?.searchBooks;
 
       if (searchResults?.status !== "success") {
         throw new Error(searchResults?.error || "Unknown error");
@@ -182,7 +162,3 @@ const SearchModal = ({ isOpen, onClose }) => {
 };
 
 export default SearchModal;
-
-
-
-

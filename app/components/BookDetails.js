@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
-
-const API_URL = 'https://sample-ak-deepankar.hypermode.app/graphql';
-const API_KEY = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg";
+import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as necessary
 
 const BookDetailsModal = ({ book, onClose }) => {
   const [selectedTab, setSelectedTab] = useState("about");
@@ -21,6 +19,7 @@ const BookDetailsModal = ({ book, onClose }) => {
 
   const fetchTabData = async (tab) => {
     setLoading(true);
+
     const prompts = {
       conversation: `Please provide an insightful and engaging conversation from the book titled "${book.title}" by ${book.author} in a paragraph. Format the conversation in paragraphs with clear speakers, and separate each speaker's dialogue with a dash and speaker's name. Include at least three lines of dialogue.`,
       quotes: `List 2 impactful and memorable quotes from the book titled "${book.title}" by ${book.author}. Format each quote in a new line, along with the speaker's name or character if applicable. Provide the source of the quote in the format of "Book Title - Author Name."`,
@@ -28,32 +27,19 @@ const BookDetailsModal = ({ book, onClose }) => {
       critique: `Provide a critique for the book titled "${book.title}" by ${book.author} in a paragraph. Include points on the plot, writing style, characters, and overall impact of the book. Make sure the critique is detailed and includes both positives and negatives.`,
     };
 
+    const query = `
+      query GenerateText($instruction: String!, $prompt: String!) {
+        generateText(instruction: $instruction, prompt: $prompt)
+      }
+    `;
+
     try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: API_KEY,
-        },
-        body: JSON.stringify({
-          query: `
-            query GenerateText($instruction: String!, $prompt: String!) {
-              generateText(instruction: $instruction, prompt: $prompt)
-            }
-          `,
-          variables: {
-            instruction: "You are an expert literary assistant. Display the results directly without any pre-sentence like 'Here is, Here are' etc.",
-            prompt: prompts[tab],
-          },
-        }),
+      const result = await fetchGraphQL(query, {
+        instruction: "You are an expert literary assistant. Display the results directly without any pre-sentence like 'Here is, Here are' etc.",
+        prompt: prompts[tab],
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch data: " + response.statusText);
-      }
-
-      const data = await response.json();
-      const generatedText = data.data.generateText || "No content available.";
+      const generatedText = result?.generateText || "No content available.";
 
       switch (tab) {
         case "conversation":

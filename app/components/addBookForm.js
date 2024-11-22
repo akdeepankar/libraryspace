@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { fetchGraphQL } from "./graphqlApi";
 
 const AddBookForm = ({ closeModal }) => {
   const [bookData, setBookData] = useState({
@@ -19,41 +20,30 @@ const AddBookForm = ({ closeModal }) => {
     console.log("Submitting book data:", bookData);
 
     try {
-      const response = await fetch('https://sample-ak-deepankar.hypermode.app/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg'
-        },
-        body: JSON.stringify({
-          query: `
-          mutation AddBookToSupabase($title: String!, $author: String!, $isbn: String!) {
-            addBookToSupabase(title: $title, author: $author, isbn: $isbn)
-          }
-        `,
-          variables: {
-            title: bookData.title,
-            author: bookData.author,
-            isbn: bookData.isbn,
-          },
-        }),
-      });
+      const graphqlQuery = `
+        mutation AddBookToSupabase($title: String!, $author: String!, $isbn: String!) {
+          addBookToSupabase(title: $title, author: $author, isbn: $isbn)
+        }
+      `;
 
-      const result = await response.json();
-      console.log("Response status:", response.status);
+      const variables = {
+        title: bookData.title,
+        author: bookData.author,
+        isbn: bookData.isbn,
+      };
+
+      const result = await fetchGraphQL(graphqlQuery, variables);
+      
       console.log("Response result:", result);
 
-      if (response.ok) {
-        //toast.success("Book added successfully!");
+      if (result) {
         console.log("Book added successfully!");
         if (closeModal) closeModal(); // Close the modal if the prop is provided
       } else {
-        //toast.error("Error adding book: " + (result.errors?.[0]?.message || "Unknown error"));
-        console.error("Error adding book:", result.errors);
+        console.error("Error adding book:", "Unknown error occurred");
       }
     } catch (error) {
       console.error("Submission error:", error);
-      //toast.error("An unexpected error occurred.");
     }
   };
 

@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import BookDetailsModal from "../components/BookDetails";
 import SearchModal from "../components/SearchModal"; 
+import { fetchGraphQL } from "../components/graphqlApi";
 
 
 const LibraryDashboard = () => {
@@ -26,44 +27,28 @@ const LibraryDashboard = () => {
   const [showSearchModal, setShowSearchModal] = useState(false); // State for the search modal
 
 
-
-  const API_URL = 'https://sample-ak-deepankar.hypermode.app/graphql';
-  const API_KEY = "Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NjIxNjA5NzcsImlhdCI6MTczMDYyNDk3NywiaXNzIjoiaHlwZXJtb2RlLmNvbSIsInN1YiI6ImFway0wMTkyZjE0OS03YWZkLTc4NWYtYTFlNy1iMGJkNzVlN2JhZjYifQ.B_Ahoca6dahbPdFCeWY-c0fu63N2k_7CwyrK_8tAsYOKNgZFWbGK4sQtS66dLmdStq4XrhixeRm4J0EF4UEzEg";
   
   const fetchRecommendations = async () => {
     setRecommendationsLoading(true);
     setShowModal(true);
-
+  
     try {
-      // Set up GraphQL API request
-      const response = await fetch(API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': API_KEY,
-        },
-        body: JSON.stringify({
-          query: `
-            query GenerateText($instruction: String!, $prompt: String!) {
-              generateText(instruction: $instruction, prompt: $prompt)
-            }
-          `,
-          variables: {
-            instruction:
-              "You are a Book Recommendation System. Given a list of books, recommend 6 books similar to them. Only the Names and Author.",
-            prompt: "Recommend 6 Books for the user like" + issuedHistory.join("\n") + "\n",
-          },
-        }),
-      });
-
-      // Check for a successful response
-      if (!response.ok) {
-        throw new Error("Failed to generate text: " + response.statusText);
-      }
-
-      const data = await response.json();
-      const generatedText = data.data.generateText || "No recommendations available.";
-
+      const graphqlQuery = `
+        query GenerateText($instruction: String!, $prompt: String!) {
+          generateText(instruction: $instruction, prompt: $prompt)
+        }
+      `;
+  
+      const variables = {
+        instruction:
+          "You are a Book Recommendation System. Given a list of books, recommend 6 books similar to them. Only the Names and Author.",
+        prompt: "Recommend 6 Books for the user like " + issuedHistory.join("\n") + "\n",
+      };
+  
+      const data = await fetchGraphQL(graphqlQuery, variables);
+  
+      const generatedText = data?.generateText || "No recommendations available.";
+  
       // Process the response
       setRecommendedBooks(
         generatedText
@@ -77,7 +62,7 @@ const LibraryDashboard = () => {
       setRecommendationsLoading(false);
     }
   };
-
+  
   // Fetch user details
   const fetchUserDetails = async () => {
     const { data: { session }, error } = await supabase.auth.getSession();
