@@ -7,6 +7,7 @@ import Image from "next/image";
 import BookDetailsModal from "../components/BookDetails";
 import SearchModal from "../components/SearchModal"; 
 import { fetchGraphQL } from "../components/graphqlApi";
+import OpenLibrary from "../components/OpenLibrary";
 
 
 const LibraryDashboard = () => {
@@ -216,26 +217,28 @@ const LibraryDashboard = () => {
 
         {/* Tab Navigation */}
         <nav className="max-w-7xl mx-auto px-6 py-2 flex space-x-10 justify-center">
-          {["catalogue", "issued", "history", "user"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => handleTabChange(tab)}
-              className={`relative text-lg font-medium text-gray-600 py-2 transition-all ${
-                activeTab === tab
-                  ? "text-blue-600"
-                  : "hover:text-blue-600"
-              }`}
-            >
-              {tab === "catalogue" && "Books Catalogue"}
-              {tab === "issued" && "Issued Books"}
-              {tab === "history" && "Issued History"}
-              {tab === "user" && "User Profile"}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600"></span>
-              )}
-            </button>
-          ))}
-        </nav>
+        {["catalogue", "openLibrary", "issued", "history", "user"].map((tab) => (
+          <button
+            key={tab}
+            onClick={() => handleTabChange(tab)}
+            className={`relative text-lg font-medium text-gray-600 py-2 transition-all ${
+              activeTab === tab
+                ? "text-blue-600"
+                : "hover:text-blue-600"
+            }`}
+          >
+            {tab === "catalogue" && "Books Catalogue"}
+            {tab === "openLibrary" && "Open Library"}
+            {tab === "issued" && "Issued Books"}
+            {tab === "history" && "Issued History"}
+            {tab === "user" && "User Profile"}
+            {activeTab === tab && (
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600"></span>
+            )}
+          </button>
+        ))}
+      </nav>
+
       </header>
 
       {/* Main Content with Padding */}
@@ -358,6 +361,8 @@ const LibraryDashboard = () => {
               </div>
             </div>
           )}
+
+{activeTab === "openLibrary" && <OpenLibrary />}
 
 {activeTab === "issued" && (
   <div className="mt-20">
