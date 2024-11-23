@@ -46,9 +46,9 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100" style={{ backgroundImage: 'url("/admin.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
 
-      <div className="ml-20 w-full max-w-md p-8 space-y-6 bg-white shadow-lg rounded-lg">
+      <div className="ml-20 w-full max-w-md p-8 space-y-6 bg-[white] shadow-lg rounded-lg">
         <Image
           className="dark:invert"
           src="/adminlogo.svg"
