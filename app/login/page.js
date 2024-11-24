@@ -48,9 +48,10 @@ export default function AuthPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100" style={{ backgroundImage: 'url("/admin.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
 
-      <div className="ml-20 w-full max-w-md p-8 space-y-6 bg-[white] shadow-lg rounded-lg">
+      <div className="ml-20 w-full max-w-md p-4 space-y-6 bg-[#ffffff40] shadow-lg rounded-2xl">
+        <div className="p-10 bg-white rounded-2xl">
         <Image
-          className="dark:invert"
+          className="dark:invert mb-5"
           src="/adminlogo.svg"
           alt="Next.js logo"
           width={380}
@@ -59,7 +60,7 @@ export default function AuthPage() {
         />
 
         {/* Tab Selection */}
-        <div className="flex justify-center space-x-4">
+        <div className="flex justify-center space-x-4 mb-5">
           <button
             onClick={() => setTab("login")}
             className={`py-2 px-4 font-semibold rounded-lg ${tab === "login" ? "bg-black text-white" : "bg-gray-200"}`}
@@ -129,6 +130,7 @@ export default function AuthPage() {
 
         {/* Message Display */}
         {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+      </div>
       </div>
     </div>
   );

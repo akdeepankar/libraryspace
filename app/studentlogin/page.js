@@ -60,7 +60,8 @@ export default function StudentAuthPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50" style={{ backgroundImage: 'url("/student.jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-      <div className="w-full max-w-lg px-8 py-10 space-y-8 bg-white rounded-xl shadow-md">
+      <div className="w-full max-w-lg px-8 py-10 space-y-8 bg-[#ffffff] rounded-xl shadow-md">
+        
         <div className="flex justify-center">
           <Image src="/studentlogo.svg" alt="Logo" width={240} height={50} priority />
         </div>
