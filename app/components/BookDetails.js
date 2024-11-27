@@ -4,6 +4,91 @@ import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as n
 import ChatbotIcon from "./chatbot";
 import Markdown from 'react-markdown'
 
+// Define icons for each tab
+const TabIcons = {
+  about: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 mr-2 mb-1 inline-block"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  ),
+  conversation: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 mr-2 inline-block"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2m-6-6h6m-6 4h4m1-8V6a2 2 0 00-2-2H7a2 2 0 00-2 2v8a2 2 0 002 2h3"
+      />
+    </svg>
+  ),
+  quotes: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 mr-2 inline-block"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M19 21l-7-4-7 4V5a2 2 0 012-2h10a2 2 0 012 2z"
+      />
+    </svg>
+  ),
+  relatedBooks: (
+    <svg
+  xmlns="http://www.w3.org/2000/svg"
+  className="w-4 h-4 mr-2 inline-block"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="currentColor"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth={2}
+    d="M12 8c2.5 0 4 1.5 4 3s-1.5 3-4 3-4-1.5-4-3 1.5-3 4-3zm-8 4V5a2 2 0 012-2h10a2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2v-4m2-6h8m-8 4h6m-6 4h6"
+  />
+</svg>
+
+  ),
+  critique: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-4 h-4 mr-2 inline-block"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+      />
+    </svg>
+  ),
+};
+
 
 const BookDetailsModal = ({ book, onClose }) => {
   const [selectedTab, setSelectedTab] = useState("about");
@@ -125,6 +210,7 @@ const BookDetailsModal = ({ book, onClose }) => {
               }`}
               onClick={() => setSelectedTab(tab)}
             >
+              {TabIcons[tab]}
               {tab.charAt(0).toUpperCase() + tab.slice(1).replace(/([A-Z])/g, " $1")}
             </button>
           ))}

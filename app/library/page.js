@@ -191,7 +191,7 @@ const LibraryDashboard = () => {
 
       
       {/* Fixed Header with Tabs */}
-      <header className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-50 to-blue-100 shadow-md z-10" >
+      <header className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-50 to-blue-300 shadow-md z-10" >
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b">
           {/* Logo and User info */}
           <div className="flex flex-col">
@@ -210,7 +210,7 @@ const LibraryDashboard = () => {
           {/* Logout button */}
           <button
             onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+            className="px-4 py-2 bg-gradient-to-r from-red-400 to-red-800 hover:bg-gradient-to-l from-red-600 to-red-800 text-white rounded-lg "
           >
             Logout
           </button>
@@ -228,11 +228,11 @@ const LibraryDashboard = () => {
                 : "hover:text-blue-600"
             }`}
           >
-            {tab === "catalogue" && "Books Catalogue"}
-            {tab === "openLibrary" && "Open Library"}
-            {tab === "issued" && "Issued Books"}
-            {tab === "history" && "Issued History"}
-            {tab === "user" && "User Profile"}
+            {tab === "catalogue" && "📚 Books Catalogue"}
+            {tab === "openLibrary" && "📖 Open Library"}
+            {tab === "issued" && "📗 Issued Books"}
+            {tab === "history" && "📕 Issued History"}
+            {tab === "user" && "👤 User Profile"}
             {activeTab === tab && (
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-800 to-blue-400"></span>
             )}
