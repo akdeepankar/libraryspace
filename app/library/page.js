@@ -183,7 +183,14 @@ const LibraryDashboard = () => {
 
   // Handle loading state
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen"><Image
+    className="dark:invert bg-white rounded-xl"
+    src="/studentlogo.svg"
+    alt="Next.js logo"
+    width={380}
+    height={38}
+    priority
+  /></div>;
   }
 
   return (
