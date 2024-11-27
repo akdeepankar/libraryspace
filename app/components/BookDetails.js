@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as necessary
 import ChatbotIcon from "./chatbot";
-import Markdown from "react-markdown";
 
 // Define icons for each tab
 const TabIcons = {
@@ -227,20 +226,20 @@ const BookDetailsModal = ({ book, onClose }) => {
                 (item, index) =>
                  
                     <li key={index} className="p-3 bg-gray-100 rounded-lg border">
-                      <Markdown>{item}</Markdown>
+                      {item}
                     </li>
                   
               )}
             </ul>
           ) : (
             <div className="text-gray-800">
-            <Markdown>
+            
               {selectedTab === "about"
                 ? content
                 : selectedTab === "conversation"
                 ? conversation
                 : critique}
-            </Markdown>
+            
           </div>
 
           )}

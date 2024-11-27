@@ -8,7 +8,6 @@ import BookDetailsModal from "../components/BookDetails";
 import SearchModal from "../components/SearchModal"; 
 import { fetchGraphQL } from "../components/graphqlApi";
 import OpenLibrary from "../components/OpenLibrary";
-import Markdown from 'react-markdown';
 
 
 const LibraryDashboard = () => {
@@ -314,7 +313,7 @@ const LibraryDashboard = () => {
                     key={index}
                     className="p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-purple-200 "
                   >
-                    <Markdown>{book}</Markdown>
+                    {book}
                   </li>
                 ))}
               </ul>
