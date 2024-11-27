@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as necessary
 import ChatbotIcon from "./chatbot";
-import Markdown from 'react-markdown'
+import Markdown from "react-markdown";
 
 // Define icons for each tab
 const TabIcons = {
