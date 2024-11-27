@@ -8,6 +8,7 @@ import BookDetailsModal from "../components/BookDetails";
 import SearchModal from "../components/SearchModal"; 
 import { fetchGraphQL } from "../components/graphqlApi";
 import OpenLibrary from "../components/OpenLibrary";
+import Markdown from 'react-markdown';
 
 
 const LibraryDashboard = () => {
@@ -42,7 +43,7 @@ const LibraryDashboard = () => {
   
       const variables = {
         instruction:
-          "You are a Book Recommendation System. Given a list of books, recommend 6 books similar to them. Only the Names and Author.",
+          "Given a list of books, recommend 6 books similar to them. Only the Names and Author. Use Markdown Format.",
         prompt: "Recommend 6 Books for the user like " + issuedHistory.join("\n") + "\n",
       };
   
@@ -190,12 +191,12 @@ const LibraryDashboard = () => {
 
       
       {/* Fixed Header with Tabs */}
-      <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-10" >
+      <header className="fixed top-0 left-0 right-0 bg-gradient-to-r from-blue-50 to-blue-100 shadow-md z-10" >
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center border-b">
           {/* Logo and User info */}
           <div className="flex flex-col">
           <Image
-          className="dark:invert"
+          className="dark:invert pb-2"
           src="/studentlogo.svg"
           alt="Next.js logo"
           width={280}
@@ -233,7 +234,7 @@ const LibraryDashboard = () => {
             {tab === "history" && "Issued History"}
             {tab === "user" && "User Profile"}
             {activeTab === tab && (
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-blue-600"></span>
+              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-800 to-blue-400"></span>
             )}
           </button>
         ))}
@@ -246,10 +247,10 @@ const LibraryDashboard = () => {
        
 
 {/* Floating Action Bar */}
-<div className="fixed bottom-6 right-6 z-50 flex items-center space-x-2">
+<div className="fixed bottom-6 left-6 z-50 flex items-center space-x-2">
         <button
           onClick={fetchRecommendations}
-          className="px-4 py-3 bg-black text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-white hover:text-black transition"
+          className="px-4 py-3 bg-gradient-to-r from-pink-700 to-pink-400 text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-gradient-to-l from-pink-700 to-purple-400 hover:text-white transition"
         >
           Recommend ✨
         </button>
@@ -257,7 +258,7 @@ const LibraryDashboard = () => {
         {/* Search Button */}
         <button
           onClick={() => setShowSearchModal(true)}
-          className="px-4 py-3 bg-blue-600 text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-blue-700 transition"
+          className="px-4 py-3 bg-gradient-to-r from-blue-100 to-blue-400 hover:bg-gradient-to-l from-blue-800 to-blue-400 text-white font-semibold flex items-center rounded-full shadow-lg hover:bg-blue-700 transition"
         >
           Search 🔍
         </button>
@@ -283,7 +284,7 @@ const LibraryDashboard = () => {
     <div
       className="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-lg z-50 overflow-y-auto"
     >
-      <div className="p-6">
+      <div className="p-5">
         <button
           onClick={() => setShowModal(false)}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -291,22 +292,22 @@ const LibraryDashboard = () => {
           ×
         </button>
         {recommendationsLoading ? (
-          <div className="flex justify-center items-center">
-            <p className="text-gray-600 text-lg">Fetching recommendations...</p>
+          <div className="flex justify-center items-center mt-20">
+            <p className="text-purple-600 text-lg">Fetching recommendations...</p>
           </div>
         ) : (
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              Recommended Books
+            <h2 className="text-2xl font-bold text-purple-700 mb-4">
+              Recommendations
             </h2>
             {recommendedBooks.length > 0 ? (
-              <ul className="space-y-3">
+              <ul className="space-y-3 ">
                 {recommendedBooks.map((book, index) => (
                   <li
                     key={index}
-                    className="p-4 border rounded-lg"
+                    className="p-4 border rounded-lg bg-gradient-to-r from-blue-100 to-purple-200 "
                   >
-                    {book}
+                    <Markdown>{book}</Markdown>
                   </li>
                 ))}
               </ul>
@@ -327,15 +328,15 @@ const LibraryDashboard = () => {
         <div>
           {activeTab === "catalogue" && (
             <div>
-              <h2 className="text-3xl font-semibold text-gray-800 mb-6">Library Catalogue</h2>
+              <h2 className="text-3xl font-semibold text-gray-800 mb-6 mt-20"></h2>
               
               {/* Search Bar */}
               <div className="mb-6">
                 <input
                   type="text"
-                  placeholder="Search by title or author..."
+                  placeholder="Search by Book Title or Author..."
                   onChange={handleSearch}
-                  className="w-full p-3 border rounded-lg text-lg"
+                  className="w-full p-3 border bg-gray-100 border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -344,7 +345,7 @@ const LibraryDashboard = () => {
                 {filteredBooks.map((book) => (
                   <div 
                     key={book.id} 
-                    className="bg-black bg-opacity-5 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
+                    className="bg-gradient-to-r from-blue-100 to-pink-50 p-4 rounded-lg shadow-lg transition-transform transform hover:scale-105 cursor-pointer"
                     onClick={() => handleBookClick(book)}
                   >
                     <Image
@@ -406,47 +407,72 @@ const LibraryDashboard = () => {
 
 
 
-          {activeTab === "user" && (
-            <div>
-              <h2 className="text-3xl font-semibold text-gray-800 mb-6">Edit Profile</h2>
-              <div className="space-y-4">
-                <label className="block text-lg font-medium text-gray-700">Name</label>
-                <input
-                  type="text"
-                  value={userEditData.name || ""}
-                  onChange={(e) => setUserEditData({ ...userEditData, name: e.target.value })}
-                  className="w-full p-4 border rounded-lg text-lg"
-                />
-                <label className="block text-lg font-medium text-gray-700">Class</label>
-                <input
-                  type="text"
-                  value={userEditData.class || ""}
-                  onChange={(e) => setUserEditData({ ...userEditData, class: e.target.value })}
-                  className="w-full p-4 border rounded-lg text-lg"
-                />
-                <label className="block text-lg font-medium text-gray-700">Section</label>
-                <input
-                  type="text"
-                  value={userEditData.section || ""}
-                  onChange={(e) => setUserEditData({ ...userEditData, section: e.target.value })}
-                  className="w-full p-4 border rounded-lg text-lg"
-                />
-                <label className="block text-lg font-medium text-gray-700">Roll No.</label>
-                <input
-                  type="text"
-                  value={userEditData.roll || ""}
-                  onChange={(e) => setUserEditData({ ...userEditData, roll: e.target.value })}
-                  className="w-full p-4 border rounded-lg text-lg"
-                />
-                <button
-                  onClick={handleEditSave}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
-                >
-                  Save Changes
-                </button>
-              </div>
-            </div>
-          )}
+{activeTab === "user" && (
+  <div className="p-6 mt-20 max-w-3xl mx-auto bg-white rounded-lg shadow-lg">
+    <h2 className="text-3xl font-bold text-gray-800 mb-8 border-b pb-4">Edit Profile</h2>
+    <form className="space-y-6">
+      {/* Name and Class Row */}
+      <div className="flex flex-wrap gap-4">
+        <div className="flex-1 min-w-[200px]">
+          <label className="block text-lg font-medium text-gray-700 mb-2">Name</label>
+          <input
+            type="text"
+            value={userEditData.name || ""}
+            onChange={(e) => setUserEditData({ ...userEditData, name: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your name"
+          />
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <label className="block text-lg font-medium text-gray-700 mb-2">Class</label>
+          <input
+            type="text"
+            value={userEditData.class || ""}
+            onChange={(e) => setUserEditData({ ...userEditData, class: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your class"
+          />
+        </div>
+      </div>
+
+      {/* Section and Roll Number Row */}
+      <div className="flex flex-wrap gap-4">
+        <div className="flex-1 min-w-[200px]">
+          <label className="block text-lg font-medium text-gray-700 mb-2">Section</label>
+          <input
+            type="text"
+            value={userEditData.section || ""}
+            onChange={(e) => setUserEditData({ ...userEditData, section: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your section"
+          />
+        </div>
+        <div className="flex-1 min-w-[200px]">
+          <label className="block text-lg font-medium text-gray-700 mb-2">Roll No.</label>
+          <input
+            type="text"
+            value={userEditData.roll || ""}
+            onChange={(e) => setUserEditData({ ...userEditData, roll: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your roll number"
+          />
+        </div>
+      </div>
+
+      {/* Save Button */}
+      <div className="text-center">
+        <button
+          onClick={handleEditSave}
+          className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+)}
+
+
         </div>
       </div>
 

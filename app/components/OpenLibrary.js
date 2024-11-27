@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path to your fetchGraphQL utility
+import BookDetailsModal from "./BookDetails";
 
 const OpenLibrary = () => {
   const [books, setBooks] = useState([]);
@@ -61,20 +62,17 @@ const OpenLibrary = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-3xl font-semibold text-gray-800 mb-6">
-        Open Library Search
-      </h2>
-      <div className="mb-6">
+      <div className="mb-6 mt-16">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for books..."
-          className="border p-2 rounded-md w-full sm:w-64"
+          className="border p-2 rounded-md w-full sm:w-64 bg-gray-200 focus:outline-none focus:ring focus:ring-blue-400"
         />
         <button
           onClick={fetchBooks}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md ml-2"
+          className="bg-gradient-to-r from-blue-400 to-blue-800 text-white px-4 py-2 rounded-md ml-2"
         >
           Search
         </button>
@@ -87,7 +85,7 @@ const OpenLibrary = () => {
             books.map((book, index) => (
               <div
                 key={index}
-                className="p-4 border rounded-lg shadow-md bg-white cursor-pointer"
+                className="p-4 border rounded-lg shadow-md bg-gradient-to-r from-blue-50 to-purple-100 cursor-pointer"
                 onClick={() => setSelectedBook(book)}
               >
                 {book.cover && (
@@ -117,103 +115,5 @@ const OpenLibrary = () => {
   );
 };
 
-const BookDetailsModal = ({ book, onClose }) => {
-  const [selectedTab, setSelectedTab] = useState("about");
-  const [loading, setLoading] = useState(false);
-  const [content, setContent] = useState("");
-
-  const fetchTabData = async (tab) => {
-    if (tab === "about") return; // No need to fetch data for "about"
-
-    setLoading(true);
-    const prompts = {
-      conversation: `Please provide an insightful conversation from the book titled "${book.title}" by ${book.author}.`,
-      quotes: `List 2 impactful quotes from the book titled "${book.title}" by ${book.author}.`,
-      relatedBooks: `Recommend 2 books related to "${book.title}" by ${book.author}.`,
-      critique: `Provide a critique for the book titled "${book.title}" by ${book.author}.`,
-    };
-
-    const query = `
-      query GenerateText($instruction: String!, $prompt: String!) {
-        generateText(instruction: $instruction, prompt: $prompt)
-      }
-    `;
-
-    try {
-      const result = await fetchGraphQL(query, {
-        instruction: "You are a literary assistant. Display results concisely.",
-        prompt: prompts[tab],
-      });
-
-      setContent(result?.generateText || "No content available.");
-    } catch (error) {
-      console.error("Error fetching data for tab:", error);
-      setContent("Error fetching content.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
-    if (tab !== "about") {
-      fetchTabData(tab);
-    }
-  };
-
-  return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
-    >
-      <div className="relative bg-white rounded-lg shadow-lg w-full max-w-3xl overflow-hidden">
-        {/* Header */}
-        <div className="flex items-end p-6 space-x-4">
-          <img
-            src={book.cover || "/placeholder.jpg"}
-            alt={book.title}
-            className="h-48 w-32 rounded-lg object-cover"
-          />
-          <div>
-            <h3 className="text-2xl font-semibold">{book.title}</h3>
-            <p className="text-gray-600">{book.author}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-          >
-            ×
-          </button>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex border-b border-gray-200">
-          {["about", "conversation", "quotes", "relatedBooks", "critique"].map((tab) => (
-            <button
-              key={tab}
-              className={`flex-1 py-3 text-center ${
-                selectedTab === tab ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-600"
-              }`}
-              onClick={() => handleTabChange(tab)}
-            >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/* Content */}
-        <div className="p-6 h-64 overflow-y-auto">
-          {selectedTab === "about" ? (
-            <p>{book.about}</p>
-          ) : loading ? (
-            <p>Loading...</p>
-          ) : (
-            <p>{content}</p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default OpenLibrary;

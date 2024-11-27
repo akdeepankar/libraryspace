@@ -88,20 +88,20 @@ const SearchModal = ({ isOpen, onClose }) => {
           >
             ×
           </button>
-          <h2 className="text-xl font-bold text-gray-900 mb-4">
-            Find Catalogue Books using Natural Language
+          <h2 className="text-2xl font-bold text-blue-900 mb-4">
+            Search Catalogue Collection
           </h2>
           <div className="flex gap-2">
             <input
               type="text"
-              placeholder="Enter search term..."
+              placeholder="Search using Natural Language."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-3 border rounded-lg text-lg"
+              className="w-full pl-2 bg-gray-100 border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <button
               onClick={handleSearch}
-              className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 bg-gradient-to-r from-blue-800 to-blue-400 text-white font-semibold rounded-lg hover:bg-blue-700"
               disabled={isLoading}
             >
               {isLoading ? "Searching..." : "Search"}
@@ -117,7 +117,7 @@ const SearchModal = ({ isOpen, onClose }) => {
               {searchResults.map((result) => (
                 <div
                   key={result.key}
-                  className="flex gap-4 border rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
+                  className="flex gap-4 border rounded-lg p-4 shadow hover:shadow-lg transition-shadow bg-gradient-to-r from-blue-50 to-blue-300"
                 >
                   {/* Cover Image */}
                   {result.cover && (
@@ -132,17 +132,17 @@ const SearchModal = ({ isOpen, onClose }) => {
 
                   {/* Book Details */}
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-800">
+                    <h3 className="text-xl font-semibold text-gray-800">
                       {result.title}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Author: {result.author}
+                    <p className="text-md text-blue-500 mt-1">
+                      by {result.author}
                     </p>
                     <p className="text-sm text-gray-600 mt-2">
                       {result.description}
                     </p>
-                    <p className="text-sm text-gray-400 mt-1">
-                      Relevance Score: {result.score.toFixed(2)}
+                    <p className="text-md text-blue-500 font-bold mt-1 bg-gradient-to-r from-blue-50 to-blue-200 p-2 rounded-xl">
+                      Relevance Score: {result.score.toFixed(3)}
                     </p>
                   </div>
                 </div>

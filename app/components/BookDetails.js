@@ -1,6 +1,9 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as necessary
+import ChatbotIcon from "./chatbot";
+import Markdown from 'react-markdown'
+
 
 const BookDetailsModal = ({ book, onClose }) => {
   const [selectedTab, setSelectedTab] = useState("about");
@@ -21,10 +24,10 @@ const BookDetailsModal = ({ book, onClose }) => {
     setLoading(true);
 
     const prompts = {
-      conversation: `Please provide an insightful and engaging conversation from the book titled "${book.title}" by ${book.author} in a paragraph. Format the conversation in paragraphs with clear speakers, and separate each speaker's dialogue with a dash and speaker's name. Include at least three lines of dialogue.`,
-      quotes: `List 2 impactful and memorable quotes from the book titled "${book.title}" by ${book.author}. Format each quote in a new line, along with the speaker's name or character if applicable. Provide the source of the quote in the format of "Book Title - Author Name."`,
-      relatedBooks: `Recommend 2 books that are related to "${book.title}" by ${book.author}. Group the books by similarity in genre, theme, or author. Provide the title, author, and a brief description of each recommended book. Format the data as follows: Title - Author, Description.`,
-      critique: `Provide a critique for the book titled "${book.title}" by ${book.author} in a paragraph. Include points on the plot, writing style, characters, and overall impact of the book. Make sure the critique is detailed and includes both positives and negatives.`,
+      conversation: `Use Markdown format. Please provide an insightful and engaging conversation from the book titled "${book.title}" by ${book.author} in a paragraph. Format the conversation in paragraphs with clear speakers, and separate each speaker's dialogue with a dash and speaker's name. Include at least three lines of dialogue.`,
+      quotes: `Use Markdown format. List 2 impactful and memorable quotes from the book titled "${book.title}" by ${book.author}. Format each quote in a new line, along with the speaker's name or character if applicable. Provide the source of the quote in the format of "Book Title - Author Name."`,
+      relatedBooks: `Use Markdown format. Recommend 2 books that are related to "${book.title}" by ${book.author}. Group the books by similarity in genre, theme, or author. Provide the title, author, and a brief description of each recommended book. Format the data as follows: Title - Author, Description.`,
+      critique: `Use Markdown format. Provide a critique for the book titled "${book.title}" by ${book.author} in a paragraph. Include points on the plot, writing style, characters, and overall impact of the book. Make sure the critique is detailed and includes both positives and negatives.`,
     };
 
     const query = `
@@ -82,7 +85,7 @@ const BookDetailsModal = ({ book, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-end p-6 space-x-4">
+        <div className="flex items-end p-6 space-x-4 bg-gradient-to-r from-blue-200 to-purple-100">
           <Image
             src={book.cover || "/cover.gif"}
             alt={book.title}
@@ -93,12 +96,13 @@ const BookDetailsModal = ({ book, onClose }) => {
           <div>
             <h3 className="text-2xl font-semibold text-gray-900">{book.title}</h3>
             <p className="text-md text-gray-600">{book.author}</p>
+            <ChatbotIcon book={book} />
             <div
-              className={`mt-3 px-4 py-2 text-sm font-medium text-white rounded-lg ${
-                book.status === "available" ? "bg-green-500" : "bg-red-500"
+              className={`mt-3 text-sm font-medium text-white rounded-lg ${
+                book.status === "available" ? "text-blue-500" : "text-purple-500"
               }`}
             >
-              {book.status || "Unavailable"}
+              {book.status || "OPEN INTERNET BOOK"}
             </div>
           </div>
           <button
@@ -134,21 +138,24 @@ const BookDetailsModal = ({ book, onClose }) => {
             <ul className="space-y-3">
               {(selectedTab === "quotes" ? quotes : recommendedBooks).map(
                 (item, index) =>
-                  item.trim() && (
+                 
                     <li key={index} className="p-3 bg-gray-100 rounded-lg border">
-                      {item}
+                      <Markdown>{item}</Markdown>
                     </li>
-                  )
+                  
               )}
             </ul>
           ) : (
-            <p className="text-gray-800">
+            <div className="text-gray-800">
+            <Markdown>
               {selectedTab === "about"
                 ? content
                 : selectedTab === "conversation"
                 ? conversation
                 : critique}
-            </p>
+            </Markdown>
+          </div>
+
           )}
         </div>
       </div>
