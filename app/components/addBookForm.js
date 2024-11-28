@@ -38,6 +38,7 @@ const AddBookForm = ({ closeModal }) => {
 
       if (result) {
         console.log("Book added successfully!");
+        alert("Book added successfully!");
         if (closeModal) closeModal(); // Close the modal if the prop is provided
       } else {
         alert("Error adding book. Please try again.");
