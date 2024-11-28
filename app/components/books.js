@@ -90,7 +90,7 @@ const BooksPage = () => {
 
   const fetchStudents = async (search = "") => {
     try {
-      let queryBuilder = supabase.from("Students").select("id, name, issuedBooks, issuedHistory");
+      let queryBuilder = supabase.from("Students").select("id, name, issuedBooks, issuedHistory, email");
       if (search) queryBuilder = queryBuilder.ilike("name", `%${search}%`);
       const { data, error } = await queryBuilder;
       if (error) console.error("Error fetching students:", error.message);
@@ -137,6 +137,7 @@ const BooksPage = () => {
             bookTitle: selectedBook.title,
             author: selectedBook.author,
             issueDate,
+            email: student.email,
           },
         ]);
   
@@ -430,6 +431,7 @@ const BooksPage = () => {
           {students.map((student) => (
             <li key={student.id} className="mb-2 flex justify-between">
               <span>{student.name}</span>
+              <span className="text-blue-500">{student.email}</span>
               <button
                 onClick={() => issueBookToStudent(student)}
                 className="bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700"

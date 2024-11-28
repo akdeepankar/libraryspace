@@ -7,6 +7,7 @@ import StudentPage from "../components/students";
 import IssuedRecords from "../components/IssuedRecords";
 import BooksPage from "../components/books";
 import Overview from "../components/overview";
+import Payments from "../components/payment";
 import AdminSettings from "../components/AdminSettings"; // Import the new AdminSettings component
 import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout } from "react-icons/ai";
 import Image from 'next/image';
@@ -50,12 +51,15 @@ export default function Dashboard() {
         return <StudentPage />;
       case "records":
         return <IssuedRecords />;
-      case "settings": // New case for Admin Settings
+      case "settings":
         return <AdminSettings />;
+      case "payments": // Add the payments tab
+        return <Payments />;
       default:
         return <p>Welcome to your dashboard!</p>;
     }
   };
+  
 
   if (!isAuthenticated) return null; // Prevents rendering while checking authentication
 
@@ -114,6 +118,16 @@ export default function Dashboard() {
               </button>
             </li>
             <li>
+            <button
+              onClick={() => setActiveTab("payments")}
+              className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
+                activeTab === "payments" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
+              } text-black`}
+            >
+              <AiOutlineFileText className="mr-2" /> Payments
+            </button>
+          </li>
+            <li>
               <button
                 onClick={() => setActiveTab("settings")}
                 className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
@@ -123,6 +137,7 @@ export default function Dashboard() {
                 <AiOutlineSetting className="mr-2" /> Admin Settings
               </button>
             </li>
+
           </ul>
         </div>
 
