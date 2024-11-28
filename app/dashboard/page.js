@@ -9,7 +9,7 @@ import BooksPage from "../components/books";
 import Overview from "../components/overview";
 import Payments from "../components/payment";
 import AdminSettings from "../components/AdminSettings"; // Import the new AdminSettings component
-import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout, AiOutlineMoneyCollect } from "react-icons/ai";
 import Image from 'next/image';
 
 export default function Dashboard() {
@@ -124,7 +124,7 @@ export default function Dashboard() {
                 activeTab === "payments" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
               } text-black`}
             >
-              <AiOutlineFileText className="mr-2" /> Payments
+              <AiOutlineMoneyCollect className="mr-2" /> Payments
             </button>
           </li>
             <li>

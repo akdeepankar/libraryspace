@@ -70,7 +70,18 @@ export default function Payments() {
                   {payment.customer?.email || "N/A"}
                 </td>
                 <td className="py-2 px-4">{payment.amount} {payment.currency}</td>
-                <td className="py-2 px-4">{payment.status}</td>
+                <td
+                className={`py-2 px-4 ${
+                    payment.status === "created"
+                    ? "text-orange-500"
+                    : payment.status === "paid"
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+                >
+                {payment.status}
+                </td>
+
                 <td className="py-2 px-4">
                   <a
                     href={payment.short_url}
