@@ -272,7 +272,7 @@ const Announcement = () => {
                       <span
                         className={`inline-block px-3 py-1 text-sm font-semibold rounded-full ${task.overdue ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}`}
                       >
-                        {task.overdue ? 'Overdue' : 'Active'}
+                        {task.overdue ? 'Executed' : 'Active'}
                       </span>
                       <button
                         onClick={() => handleStop(task.id)}
