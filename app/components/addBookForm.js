@@ -7,6 +7,7 @@ const AddBookForm = ({ closeModal }) => {
     author: "",
     isbn: "",
   });
+  const [isAdding, setIsAdding] = useState(false); // State to manage loading
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +19,7 @@ const AddBookForm = ({ closeModal }) => {
     e.preventDefault();
 
     console.log("Submitting book data:", bookData);
+    setIsAdding(true); // Start loading
 
     try {
       const graphqlQuery = `
@@ -33,7 +35,7 @@ const AddBookForm = ({ closeModal }) => {
       };
 
       const result = await fetchGraphQL(graphqlQuery, variables);
-      
+
       console.log("Response result:", result);
 
       if (result) {
@@ -46,12 +48,15 @@ const AddBookForm = ({ closeModal }) => {
       }
     } catch (error) {
       console.error("Submission error:", error);
+    } finally {
+      setIsAdding(false); // Stop loading
     }
   };
 
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-4">Add a New Book</h2>
+      {isAdding && <p className="text-blue-600 mb-2">Adding...</p>} {/* Adding message */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -60,6 +65,7 @@ const AddBookForm = ({ closeModal }) => {
           onChange={handleChange}
           placeholder="Book Title"
           className="w-full p-2 border rounded-lg shadow-md"
+          disabled={isAdding} // Disable inputs while loading
         />
         <input
           type="text"
@@ -68,6 +74,7 @@ const AddBookForm = ({ closeModal }) => {
           onChange={handleChange}
           placeholder="Author"
           className="w-full p-2 border rounded-lg shadow-md"
+          disabled={isAdding} // Disable inputs while loading
         />
         <input
           type="text"
@@ -76,12 +83,16 @@ const AddBookForm = ({ closeModal }) => {
           onChange={handleChange}
           placeholder="ISBN"
           className="w-full p-2 border rounded-lg shadow-md"
+          disabled={isAdding} // Disable inputs while loading
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-700"
+          className={`px-4 py-2 ${
+            isAdding ? "bg-gray-400" : "bg-blue-600"
+          } text-white rounded-full hover:bg-blue-700`}
+          disabled={isAdding} // Disable button while loading
         >
-          Add Book
+          {isAdding ? "Adding..." : "Add Book"}
         </button>
       </form>
     </div>
