@@ -8,8 +8,9 @@ import IssuedRecords from "../components/IssuedRecords";
 import BooksPage from "../components/books";
 import Overview from "../components/overview";
 import Payments from "../components/payment";
-import AdminSettings from "../components/AdminSettings"; // Import the new AdminSettings component
-import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout, AiOutlineMoneyCollect } from "react-icons/ai";
+import AdminSettings from "../components/AdminSettings"; 
+import Announcement from "../components/Announcement"; // New Announcement component
+import { AiOutlineHome, AiOutlineBook, AiOutlineUser, AiOutlineFileText, AiOutlineSetting, AiOutlineLogout, AiOutlineMoneyCollect, AiOutlineBell } from "react-icons/ai";
 import Image from 'next/image';
 
 export default function Dashboard() {
@@ -53,8 +54,10 @@ export default function Dashboard() {
         return <IssuedRecords />;
       case "settings":
         return <AdminSettings />;
-      case "payments": // Add the payments tab
+      case "payments":
         return <Payments />;
+      case "announcements": // New case for announcements
+        return <Announcement />;
       default:
         return <p>Welcome to your dashboard!</p>;
     }
@@ -80,9 +83,7 @@ export default function Dashboard() {
             <li>
               <button
                 onClick={() => setActiveTab("overview")}
-                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                  activeTab === "overview" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-                } text-black`}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "overview" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
               >
                 <AiOutlineHome className="mr-2" /> Overview
               </button>
@@ -90,9 +91,7 @@ export default function Dashboard() {
             <li>
               <button
                 onClick={() => setActiveTab("books")}
-                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                  activeTab === "books" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-                } text-black`}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "books" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
               >
                 <AiOutlineBook className="mr-2" /> Books
               </button>
@@ -100,9 +99,7 @@ export default function Dashboard() {
             <li>
               <button
                 onClick={() => setActiveTab("students")}
-                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                  activeTab === "students" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-                } text-black`}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "students" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
               >
                 <AiOutlineUser className="mr-2" /> Students
               </button>
@@ -110,34 +107,35 @@ export default function Dashboard() {
             <li>
               <button
                 onClick={() => setActiveTab("records")}
-                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                  activeTab === "records" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-                } text-black`}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "records" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
               >
                 <AiOutlineFileText className="mr-2" /> Issue Records
               </button>
             </li>
             <li>
-            <button
-              onClick={() => setActiveTab("payments")}
-              className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                activeTab === "payments" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-              } text-black`}
-            >
-              <AiOutlineMoneyCollect className="mr-2" /> Payments
-            </button>
-          </li>
+              <button
+                onClick={() => setActiveTab("payments")}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "payments" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
+              >
+                <AiOutlineMoneyCollect className="mr-2" /> Payments
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("announcements")} // Announcement tab button
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "announcements" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
+              >
+                <AiOutlineBell className="mr-2" /> Announcements
+              </button>
+            </li>
             <li>
               <button
                 onClick={() => setActiveTab("settings")}
-                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${
-                  activeTab === "settings" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"
-                } text-black`}
+                className={`w-full flex items-center text-left py-2 px-4 rounded-lg ${activeTab === "settings" ? "bg-[#d6d7e1]" : "hover:bg-[#e5e6ee]"} text-black`}
               >
                 <AiOutlineSetting className="mr-2" /> Admin Settings
               </button>
             </li>
-
           </ul>
         </div>
 
