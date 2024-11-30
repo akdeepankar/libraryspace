@@ -69,7 +69,9 @@ export default function Payments() {
                 <td className="py-2 px-4">
                   {payment.customer?.email || "N/A"}
                 </td>
-                <td className="py-2 px-4">{payment.amount} {payment.currency}</td>
+                <td className="py-2 px-4">
+  {payment.amount ? (parseFloat(payment.amount) / 100).toFixed(2) : "N/A"} {payment.currency}
+</td>
                 <td
                 className={`py-2 px-4 ${
                     payment.status === "created"
