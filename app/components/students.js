@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
-import Modal from "./Modal"; // Assuming Modal is already created
+import Modal from "./Modal"; 
 import { fetchGraphQL } from "./graphqlApi";
 
 const StudentPage = () => {

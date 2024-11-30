@@ -7,10 +7,10 @@ const IssuedRecords = () => {
   const [loading, setLoading] = useState(false);
 
   // Filter state
-  const [monthFilter, setMonthFilter] = useState(""); // Filter by month
-  const [bookTitleFilter, setBookTitleFilter] = useState(""); // Filter by book title
-  const [studentNameFilter, setStudentNameFilter] = useState(""); // Filter by student name
-  const [authorFilter, setAuthorFilter] = useState(""); // Filter by author
+  const [monthFilter, setMonthFilter] = useState(""); 
+  const [bookTitleFilter, setBookTitleFilter] = useState("");
+  const [studentNameFilter, setStudentNameFilter] = useState(""); 
+  const [authorFilter, setAuthorFilter] = useState(""); 
 
   const months = [
     "January", "February", "March", "April", "May", "June",
@@ -77,13 +77,11 @@ const IssuedRecords = () => {
       description: `Late Fee Payment for ${record.bookTitle}`,
       customerName: `${record.studentName}`,    
       customerEmail: `${record.email}`,
-    }; // Add dynamic parameters here if required
+    }; 
   
     try {
-      // Use your existing GraphQL fetch function
       const data = await fetchGraphQL(graphqlQuery, variables);
   
-      // Extract and handle the generated payment link
       const paymentLink = data?.generatePaymentLink || "No link available.";
       alert(`${paymentLink}`);
       console.log("Payment link:", paymentLink);

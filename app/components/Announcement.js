@@ -1,6 +1,6 @@
-import { fetchGraphQL } from './graphqlApi'; // Import the fetchGraphQL function
+import { fetchGraphQL } from './graphqlApi';
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabaseClient'; // Import Supabase client
+import { supabase } from '../lib/supabaseClient';
 
 const Announcement = () => {
   const [taskDescription, setTaskDescription] = useState('');

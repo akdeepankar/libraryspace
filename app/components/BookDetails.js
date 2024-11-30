@@ -1,10 +1,10 @@
 import React from 'react'
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path as necessary
+import { fetchGraphQL } from "../components/graphqlApi"; 
 import ChatbotIcon from "./chatbot";
 
-// Define icons for each tab
+//  Icons for each tab
 const TabIcons = {
   about: (
     <svg
@@ -189,7 +189,6 @@ const BookDetailsModal = ({ book, onClose }) => {
           >
             {(book.status ? book.status.toUpperCase() : "OPEN INTERNET BOOK")}
           </div>
-
           </div>
           <button
             onClick={onClose}

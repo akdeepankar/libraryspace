@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { fetchGraphQL } from "../components/graphqlApi"; // Adjust the path to your fetchGraphQL utility
+import { fetchGraphQL } from "../components/graphqlApi"; 
 import BookDetailsModal from "./BookDetails";
 
 const OpenLibrary = () => {

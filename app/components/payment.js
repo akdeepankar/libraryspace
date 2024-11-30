@@ -15,7 +15,6 @@ export default function Payments() {
         }
       `;
 
-      // Fetch data from GraphQL
       const response = await fetchGraphQL(graphqlQuery);
 
       // Extract and parse the JSON string from the response

@@ -19,7 +19,7 @@ const AddBookForm = ({ closeModal }) => {
     e.preventDefault();
 
     console.log("Submitting book data:", bookData);
-    setIsAdding(true); // Start loading
+    setIsAdding(true);
 
     try {
       const graphqlQuery = `
