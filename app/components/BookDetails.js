@@ -183,11 +183,11 @@ const BookDetailsModal = ({ book, onClose }) => {
             <p className="text-md text-gray-600">{book.author}</p>
             <ChatbotIcon book={book} />
             <div
-              className={`mt-3 text-sm font-medium text-white rounded-lg ${
-                book.status === "available" ? "text-blue-500" : "text-purple-500"
+              className={`mt-3 text-sm font-medium text-black rounded-lg ${
+                book.status === "issued" ? "text-red-500" : "text-purple-500"
               }`}
             >
-              {book.status || "OPEN INTERNET BOOK"}
+              {book.status.toUpperCase() || "OPEN INTERNET BOOK"}
             </div>
           </div>
           <button
