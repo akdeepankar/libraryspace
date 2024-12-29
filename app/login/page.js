@@ -21,7 +21,7 @@ export default function AuthPage() {
       }
     };
     checkSession();
-  }, []);
+  }, [router]);
 
   // Function to handle login
   const handleLogin = async (e) => {
